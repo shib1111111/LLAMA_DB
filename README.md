@@ -8,7 +8,7 @@ LLAMA DB is an AI-Driven Natural Language Query Chatbot that simplifies database
 - **Simple and Intuitive Interface:** LLAMA DB provides a user-friendly chat interface for seamless interaction.
 - **Real-Time Responses:** Get instant responses to your queries, enabling efficient data retrieval and management.
 
-## Getting Started<a name="getting-started"></a>
+## Getting Started
 
 Before you can run this web app, ensure that you have the necessary prerequisites installed on your machine.
 
@@ -44,7 +44,7 @@ To create a virtual environment (venv) for your LLAMA DB project, follow these s
   ```bash
   python3 -m venv venv
   ```
-3. Activate the virtual environment:
+3. **Activate the virtual environment:**
 
   For Windows:
   ```bash
@@ -64,7 +64,7 @@ Run the following command to install the required dependencies:
 pip install -r requirements.txt
   ```
 
-5. **Usage**
+5. **Run the App**
 To run this web app, execute the following command in your terminal:
 ```bash
 streamlit run app.py  
@@ -73,8 +73,4 @@ Visit the provided local URL (usually http://localhost:8501) in your web browser
  
 ## Contributing
 We welcome contributions to enhance this Chatbot. Feel free to open issues or submit pull requests.
-
-
 Thank you for using this ChatBot! Feel free to reach out with any questions or feedback.
-
-<em style="color: #ff66b2; font-weight: bold;">✨ --- Designed & made by Shib Kumar Saraf ✨</em>
