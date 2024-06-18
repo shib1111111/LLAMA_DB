@@ -6,3 +6,11 @@ streamlit
 python-dotenv
 SQLAlchemy
 psycopg2-binary
+langserve
+fastapi
+uvicorn
+sse_starlette
+streamlit_chat
+python-jose
+passlib
+argon2_cffi
