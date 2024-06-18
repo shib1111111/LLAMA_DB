@@ -14,3 +14,4 @@ streamlit_chat
 python-jose
 passlib
 argon2_cffi
+gunicorn
