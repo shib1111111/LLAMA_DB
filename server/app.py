@@ -19,7 +19,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(apikey_router)
 app.include_router(api_router)
-port = int(os.environ.get("PORT", 8080))
+port = int(os.environ.get("PORT", 10000))
 
 '''
 if __name__ == "__main__":
