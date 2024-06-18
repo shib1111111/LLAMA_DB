@@ -13,19 +13,8 @@ os.environ["LANGCHAIN_TRACING_V2"] = "true"
 
 
 def init_database(user: str, password: str, host: str, port: str, database: str):
-    try:
-        connection = psycopg2.connect(
-            dbname=database,
-            user=user,
-            password=password,
-            host=host,
-            port=port
-        )
-        print("Connection to database was successful")
-        return connection
-    except Exception as error:
-        print("Error while connecting to PostgreSQL", error)
-        return None
+    db_uri = f"postgresql://{user}:{password}@{host}:{port}/{database}"
+    return psycopg2.connect(db_uri)
 
 def get_table_info(db):
     with db.cursor(cursor_factory=psycopg2.extras.DictCursor) as cursor:
