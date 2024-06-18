@@ -26,6 +26,7 @@ def query(request: QueryRequest, current_user: User = Depends(get_current_user),
     if not api_key_entry:
         raise HTTPException(status_code=401, detail="Invalid API key")
     if db_conn is None:
+        print("no db_conn")
         raise HTTPException(status_code=400, detail="Database not connected")
     try:
         response = get_response(request.query, db_conn, request.chat_history)
