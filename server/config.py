@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = "sqlite:///server/user.db"
+DATABASE_URL = "sqlite:///user.db"
 
 JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 ALGORITHM = "HS256"
