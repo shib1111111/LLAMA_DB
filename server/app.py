@@ -21,6 +21,8 @@ app.include_router(apikey_router)
 app.include_router(api_router)
 port = int(os.environ.get("PORT", 8080))
 
+'''
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=port)
+'''
