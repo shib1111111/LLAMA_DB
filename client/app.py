@@ -139,11 +139,11 @@ def api_key_page():
 
 def main_page():
     st.sidebar.subheader("Connect to the Database")
-    host = st.sidebar.text_input("Host", value="localhost")
+    host = st.sidebar.text_input("Host", value="dpg-cpom45iju9rs738ra2ug-a.oregon-postgres.render.com")
     port = st.sidebar.text_input("Port", value="5432")
-    user = st.sidebar.text_input("User", value="postgres")
-    password = st.sidebar.text_input("Password", type="password", value="1234")
-    database = st.sidebar.text_input("Database", value="postgres")
+    user = st.sidebar.text_input("User", value="indian_data_user")
+    password = st.sidebar.text_input("Password", type="password", value="rP5vYYjVDtskMuTmodSSop7V3N2LRrGu")
+    database = st.sidebar.text_input("Database", value="indian_data")
     if st.sidebar.button("Connect"):
         connect_to_db(host, port, user, password, database)
     st.sidebar.subheader("Enter API Key")
