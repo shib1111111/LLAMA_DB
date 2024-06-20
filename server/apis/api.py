@@ -12,7 +12,6 @@ api_router = APIRouter()
 user_db_connections = {}
 @api_router.post("/connect")
 def connect(request: ConnectRequest, current_user: User = Depends(get_current_user)):
-    #global db_conn
     try:
         db_conn = init_database(request.user, request.password, request.host, request.port, request.database)
         user_db_connections[current_user.id] = db_conn 
@@ -22,7 +21,6 @@ def connect(request: ConnectRequest, current_user: User = Depends(get_current_us
 
 @api_router.post("/query")
 def query(request: QueryRequest, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    #global db_conn
     db_conn = user_db_connections.get(current_user.id)
     api_key_entry = db.query(ApiKey).filter(ApiKey.key == request.api_key).first()
     if not api_key_entry:
