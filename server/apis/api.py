@@ -1,10 +1,13 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends,Request
 from sqlalchemy.orm import Session
 from models import User,ApiKey
 from database import get_db
 from api_utils import get_current_user
 from schemas import ConnectRequest,QueryRequest
 from llm_utils import init_database,get_response
+from fastapi.responses import PlainTextResponse
+from twilio.twiml.messaging_response import MessagingResponse
+import asyncpg
 
 api_router = APIRouter()
 
@@ -32,3 +35,41 @@ def query(request: QueryRequest, current_user: User = Depends(get_current_user),
         return {"response": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post('/whatsapp/query', response_class=PlainTextResponse)
+async def chatgpt(request: Request):
+    try:
+        db_conn = init_database(
+            "indian_data_user", 
+            "rP5vYYjVDtskMuTmodSSop7V3N2LRrGu", 
+            "dpg-cpom45iju9rs738ra2ug-a.oregon-postgres.render.com",
+            "5432", 
+            "indian_data"
+        )
+        chat_history = []
+
+        form = await request.form()
+        incoming_query = form.get('Body', '').lower()
+        print("Question: ", incoming_query)
+
+        answer = get_response(incoming_query, db_conn, chat_history)
+        print("BOT Answer: ", answer)
+
+        bot_resp = MessagingResponse()
+        msg = bot_resp.message()
+        msg.body(answer)
+        
+    except asyncpg.PostgresError as e:
+        print("Database error:", e)
+        bot_resp = MessagingResponse()
+        msg = bot_resp.message()
+        msg.body("Sorry, there was a problem connecting to the database.")
+    except Exception as e:
+        print("Error:", e)
+        bot_resp = MessagingResponse()
+        msg = bot_resp.message()
+        msg.body("Sorry, an error occurred while processing your request.")
+    
+    return str(bot_resp)
+
