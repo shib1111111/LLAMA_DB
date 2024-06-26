@@ -6,7 +6,7 @@ from api_utils import get_current_user
 from schemas import ConnectRequest,QueryRequest
 from llm_utils import init_database,get_response
 from fastapi.responses import PlainTextResponse
-from twilio.twiml.messaging_response import MessagingResponse
+from twilio.twiml.messaging_response import MessagingResponse #change with 1msg get_commerce
 import asyncpg
 
 api_router = APIRouter()
@@ -54,16 +54,16 @@ async def whatsapp_query(request: Request):
         print("Question: ", incoming_query)
         answer = get_response(incoming_query, db_conn, chat_history)
         print("BOT Answer: ", answer)
-        bot_resp = MessagingResponse()
+        bot_resp = MessagingResponse()  #change with 1msg get_commerce this 2 lines
         bot_resp.message(str(answer))
 
     except asyncpg.PostgresError as e:
         print("Database error:", e)
-        bot_resp = MessagingResponse()
+        bot_resp = MessagingResponse()   #change with 1msg get_commerce this 2 lines
         bot_resp.message("Sorry, there was a problem connecting to the database.")
     except Exception as e:
         print("Error:", e)
-        bot_resp = MessagingResponse()
+        bot_resp = MessagingResponse() #change with 1msg get_commerce this 2 lines
         bot_resp.message("Sorry, an error occurred while processing your request.")    
         
     return str(bot_resp)
