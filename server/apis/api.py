@@ -38,7 +38,7 @@ def query(request: QueryRequest, current_user: User = Depends(get_current_user),
 
 
 @api_router.post('/whatsapp/query', response_class=PlainTextResponse)
-async def chatgpt(request: Request):
+async def whatsapp_query(request: Request):
     try:
         db_conn = init_database(
             "indian_data_user", 
