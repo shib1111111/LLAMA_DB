@@ -52,14 +52,11 @@ async def whatsapp_query(request: Request):
         form = await request.form()
         incoming_query = form.get('Body', '').lower()
         print("Question: ", incoming_query)
-
         answer = get_response(incoming_query, db_conn, chat_history)
         print("BOT Answer: ", answer)
-
         bot_resp = MessagingResponse()
-        msg = bot_resp.message()
-        msg.body(answer)
-        
+        msg = bot_resp.message(answer)
+
     except asyncpg.PostgresError as e:
         print("Database error:", e)
         bot_resp = MessagingResponse()
