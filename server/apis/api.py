@@ -55,18 +55,16 @@ async def whatsapp_query(request: Request):
         answer = get_response(incoming_query, db_conn, chat_history)
         print("BOT Answer: ", answer)
         bot_resp = MessagingResponse()
-        msg = bot_resp.message(answer)
+        msg = bot_resp.message(str(answer))
 
     except asyncpg.PostgresError as e:
         print("Database error:", e)
         bot_resp = MessagingResponse()
-        msg = bot_resp.message()
-        msg.body("Sorry, there was a problem connecting to the database.")
+        msg = bot_resp.message("Sorry, there was a problem connecting to the database.")
     except Exception as e:
         print("Error:", e)
         bot_resp = MessagingResponse()
-        msg = bot_resp.message()
-        msg.body("Sorry, an error occurred while processing your request.")
-    
+        msg = bot_resp.message("Sorry, an error occurred while processing your request.")    
+        
     return str(bot_resp)
 
