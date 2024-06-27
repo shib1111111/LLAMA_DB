@@ -1,3 +1,4 @@
+'''
 from telegram import Update, Bot
 import asyncpg
 
@@ -80,3 +81,4 @@ async def send_welcome_message(update: Update):
     }
     print(f"Welcome message sent to user {update.message.from_user.id}")
 
+'''
