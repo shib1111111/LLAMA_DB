@@ -3,14 +3,15 @@ from sqlalchemy.orm import Session
 from models import User,ApiKey
 from database import get_db
 from api_utils import get_current_user
-from schemas import ConnectRequest,QueryRequest,TelegramWebhookRequest
+from schemas import ConnectRequest,QueryRequest
 from llm_utils import init_database,get_response
 from fastapi.responses import PlainTextResponse
 from twilio.twiml.messaging_response import MessagingResponse
 import asyncpg
+'''
 from telegram import send_welcome_message,handle_update,bot
 from telegram import Update, Bot
-
+'''
 api_router = APIRouter()
 
 
@@ -69,9 +70,10 @@ async def whatsapp_query(request: Request):
         bot_resp.message("Sorry, an error occurred while processing your request.")    
         
     return str(bot_resp)
-
+'''
 @api_router.post("/telegram/webhook")
 async def telegram_webhook(update: TelegramWebhookRequest, background_tasks: BackgroundTasks):
     update = Update.de_json(update.dict(), bot)
     background_tasks.add_task(handle_update, update)
     return "ok"
+'''
