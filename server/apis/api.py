@@ -1,13 +1,15 @@
-from fastapi import APIRouter, HTTPException, Depends,Request
+from fastapi import APIRouter, HTTPException, Depends,Request,BackgroundTasks
 from sqlalchemy.orm import Session
 from models import User,ApiKey
 from database import get_db
 from api_utils import get_current_user
-from schemas import ConnectRequest,QueryRequest
+from schemas import ConnectRequest,QueryRequest,TelegramWebhookRequest
 from llm_utils import init_database,get_response
 from fastapi.responses import PlainTextResponse
-from twilio.twiml.messaging_response import MessagingResponse #change with 1msg get_commerce
+from twilio.twiml.messaging_response import MessagingResponse
 import asyncpg
+from telegram import send_welcome_message,handle_update,bot
+from telegram import Update, Bot
 
 api_router = APIRouter()
 
@@ -54,16 +56,22 @@ async def whatsapp_query(request: Request):
         print("Question: ", incoming_query)
         answer = get_response(incoming_query, db_conn, chat_history)
         print("BOT Answer: ", answer)
-        bot_resp = MessagingResponse()  #change with 1msg get_commerce this 2 lines
+        bot_resp = MessagingResponse()
         bot_resp.message(str(answer))
 
     except asyncpg.PostgresError as e:
         print("Database error:", e)
-        bot_resp = MessagingResponse()   #change with 1msg get_commerce this 2 lines
+        bot_resp = MessagingResponse()
         bot_resp.message("Sorry, there was a problem connecting to the database.")
     except Exception as e:
         print("Error:", e)
-        bot_resp = MessagingResponse() #change with 1msg get_commerce this 2 lines
+        bot_resp = MessagingResponse()
         bot_resp.message("Sorry, an error occurred while processing your request.")    
         
     return str(bot_resp)
+
+@api_router.post("/telegram/webhook")
+async def telegram_webhook(update: TelegramWebhookRequest, background_tasks: BackgroundTasks):
+    update = Update.de_json(update.dict(), bot)
+    background_tasks.add_task(handle_update, update)
+    return "ok"
