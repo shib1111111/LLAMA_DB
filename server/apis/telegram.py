@@ -1,3 +1,11 @@
+from fastapi import FastAPI, Request, HTTPException, BackgroundTasks,APIRouter
+from pydantic import BaseModel
+from telegram import Update, Bot
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
+import asyncpg
+api_router = APIRouter()
+
+TOKEN = "7273450268:AAEUX058yj_etHpOKe-Lo62W-7si_mJCt8c"
 bot = Bot(token=TOKEN)
 user_sessions = {}
 
@@ -84,5 +92,3 @@ async def telegram_webhook(update: TelegramWebhookRequest, background_tasks: Bac
     update = Update.de_json(update.dict(), bot)
     background_tasks.add_task(handle_update, update)
     return "ok"
-
-
