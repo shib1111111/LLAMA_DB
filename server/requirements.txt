@@ -16,3 +16,5 @@ passlib
 argon2_cffi
 twilio
 asyncpg
+one_msg_waba_sdk
+python-telegram-bot[asyncio]
