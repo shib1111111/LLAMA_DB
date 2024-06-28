@@ -1,4 +1,4 @@
-
+'''
 ## https://github.com/1msg/1sdk/tree/main/python
 
 import one_msg_waba_sdk
@@ -38,3 +38,4 @@ with one_msg_waba_sdk.ApiClient(configuration) as api_client:
         pprint(api_response)
     except Exception as e:
         print("Exception when calling MessagingApi->send_message: %s\n" % e)
+'''
