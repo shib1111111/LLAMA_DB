@@ -19,7 +19,7 @@ def message_parser(message):
 # To send message using "SendMessage" API
 def send_message_telegram(chat_id, text):
     try:
-        url = f'https://api.telegram.org/bot{token}/sendMessage'
+        url = f'https://api.telegram.org/bot{telegram_token}/sendMessage'
         payload = {
             'chat_id': chat_id,
             'text': text
