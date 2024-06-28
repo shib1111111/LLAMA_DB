@@ -70,7 +70,7 @@ async def whatsapp_query(request: Request):
         
     return str(bot_resp)
 
-@api_router.post("/telegram/webhook", response_class=PlainTextResponse)
+@api_router.post("/telegram/query", response_class=PlainTextResponse)
 async def telegram_query(request: Request):
     try:
         db_conn = init_database(
