@@ -1,6 +1,8 @@
 import requests
 from fastapi import FastAPI, Request, Response
-token = '7286199970:AAGdcBecOKAAv5_8vXNBUDHUYcpmVrUSJsw'
+from config import TELEGRAM_SECRET_KEY
+
+telegram_token = TELEGRAM_SECRET_KEY
 
 # To Get Chat ID and message which is sent by client
 def message_parser(message):
