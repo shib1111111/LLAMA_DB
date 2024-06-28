@@ -7,11 +7,10 @@ from schemas import ConnectRequest,QueryRequest
 from llm_utils import init_database,get_response
 from fastapi.responses import PlainTextResponse
 from twilio.twiml.messaging_response import MessagingResponse
-import asyncpg
-'''
-from telegram import send_welcome_message,handle_update,bot
-from telegram import Update, Bot
-'''
+from telegram_utils import message_parser,send_message_telegram
+import asyncpg 
+
+
 api_router = APIRouter()
 
 
@@ -70,10 +69,30 @@ async def whatsapp_query(request: Request):
         bot_resp.message("Sorry, an error occurred while processing your request.")    
         
     return str(bot_resp)
-'''
-@api_router.post("/telegram/webhook")
-async def telegram_webhook(update: TelegramWebhookRequest, background_tasks: BackgroundTasks):
-    update = Update.de_json(update.dict(), bot)
-    background_tasks.add_task(handle_update, update)
-    return "ok"
-'''
+
+@api_router.post("/telegram/webhook", response_class=PlainTextResponse)
+async def telegram_query(request: Request):
+    try:
+        db_conn = init_database(
+            "indian_data_user", 
+            "rP5vYYjVDtskMuTmodSSop7V3N2LRrGu", 
+            "dpg-cpom45iju9rs738ra2ug-a.oregon-postgres.render.com",
+            "5432", 
+            "indian_data"
+        )
+        chat_history = []
+
+        msg = await request.json()
+        chat_id, incoming_query = message_parser(msg)
+        answer = get_response(incoming_query, db_conn, chat_history)
+        send_message_telegram(chat_id, answer)
+        
+        return {"message": "Message sent successfully"}
+    
+    except asyncpg.PostgresError as e:
+        print("Database error:", e)
+        return HTTPException(status_code=500, detail="Database error")
+    
+    except Exception as e:
+        print("Error:", e)
+        return HTTPException(status_code=500, detail="An error occurred while processing the request")
