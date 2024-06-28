@@ -73,8 +73,8 @@ async def whatsapp_query(request: Request):
 # Initialize chat history
 telegram_chat_histories = {}
 @api_router.post("/telegram/query")
-print("entered into telegram API")
 async def telegram_query(request: Request):
+    print("entered into telegram API")
     try:
         db_conn = init_database(
             "indian_data_user", 
