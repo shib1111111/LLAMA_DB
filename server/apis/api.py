@@ -70,6 +70,17 @@ async def whatsapp_query(request: Request):
         
     return str(bot_resp)
 
+import requests
+from fastapi import APIRouter, HTTPException, Request
+import asyncpg
+from llm_utils import init_database, get_response
+from telegram_utils import message_parser, send_message_telegram
+
+api_router = APIRouter()
+
+# Initialize chat history
+initial_message = "Hello! I'm a SQL assistant. Ask me anything about your database. To stop the chat, write Stop ."
+chat_history = [{"type": "AIMessage","content":initial_message}]
 @api_router.post("/telegram/query")
 async def telegram_query(request: Request):
     try:
@@ -80,19 +91,25 @@ async def telegram_query(request: Request):
             "5432", 
             "indian_data"
         )
-        chat_history = []
 
         msg = await request.json()
         chat_id, incoming_query = message_parser(msg)
+        if incoming_query == "Stop":
+            chat_history.clear()
+            chat_history.append({"type": "AIMessage", "content": initial_message})
+            send_message_telegram(chat_id, "Chat Context cleared.")
+            return {"message": "Chat history cleared."}
+        if incoming_query == "/start":
+            send_message_telegram(chat_id, chat_history[0]["content"])
+            return {"message": "Initial message sent successfully"}
+        chat_history.append({"type": "HumanMessage", "content": incoming_query})
         answer = get_response(incoming_query, db_conn, chat_history)
+        chat_history.append({"type": "AIMessage", "content": answer})
         send_message_telegram(chat_id, answer)
-        
         return {"message": "Message sent successfully"}
-    
     except asyncpg.PostgresError as e:
         print("Database error:", e)
-        return HTTPException(status_code=500, detail="Database error")
-    
+        raise HTTPException(status_code=500, detail="Database error")
     except Exception as e:
         print("Error:", e)
-        return HTTPException(status_code=500, detail="An error occurred while processing the request")
+        raise HTTPException(status_code=500, detail="An error occurred while processing the request")
