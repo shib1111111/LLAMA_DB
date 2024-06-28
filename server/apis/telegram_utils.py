@@ -1,6 +1,6 @@
 import requests
 from fastapi import FastAPI, Request, Response
-token = '7273450268:AAEUX058yj_etHpOKe-Lo62W-7si_mJCt8c'
+token = '7370707028:AAE4tmP-3czAgbF2_ZP2KoP59PjVlUnwrms'
 
 # To Get Chat ID and message which is sent by client
 def message_parser(message):
