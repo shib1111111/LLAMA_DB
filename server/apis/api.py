@@ -70,17 +70,8 @@ async def whatsapp_query(request: Request):
         
     return str(bot_resp)
 
-import requests
-from fastapi import APIRouter, HTTPException, Request
-import asyncpg
-from llm_utils import init_database, get_response
-from telegram_utils import message_parser, send_message_telegram
-
-api_router = APIRouter()
-
 # Initialize chat history
-initial_message = "Hello! I'm a SQL assistant. Ask me anything about your database. To stop the chat, write Stop ."
-chat_history = [{"type": "AIMessage","content":initial_message}]
+telegram_chat_histories = {}
 @api_router.post("/telegram/query")
 async def telegram_query(request: Request):
     try:
@@ -94,18 +85,23 @@ async def telegram_query(request: Request):
 
         msg = await request.json()
         chat_id, incoming_query = message_parser(msg)
-        print(incoming_query)
+        initial_message = "Hello! I'm a SQL assistant. Ask me anything about your database. To stop the chat, write Stop ."
+        
+        if chat_id not in chat_histories:
+            telegram_chat_histories[chat_id] = [
+                {"type": "AIMessage", "content": initial_message},
+            ]
         if incoming_query == "Stop":
-            chat_history.clear()
-            chat_history.append({"type": "AIMessage", "content": initial_message})
+            telegram_chat_histories[chat_id].clear()
+            telegram_chat_histories[chat_id].append({"type": "AIMessage", "content": initial_message})
             send_message_telegram(chat_id, "Chat Context cleared.")
             return {"message": "Chat history cleared."}
         if incoming_query == "/start":
-            send_message_telegram(chat_id, chat_history[0]["content"])
+            send_message_telegram(chat_id, telegram_chat_histories[chat_id][0]["content"])
             return {"message": "Initial message sent successfully"}
-        chat_history.append({"type": "HumanMessage", "content": incoming_query})
-        answer = get_response(incoming_query, db_conn, chat_history)
-        chat_history.append({"type": "AIMessage", "content": answer})
+        telegram_chat_histories[chat_id].append({"type": "HumanMessage", "content": incoming_query})
+        answer = get_response(incoming_query, db_conn, telegram_chat_histories[chat_id])
+        telegram_chat_histories[chat_id].append({"type": "AIMessage", "content": answer})
         send_message_telegram(chat_id, answer)
         return {"message": "Message sent successfully"}
     except asyncpg.PostgresError as e:
