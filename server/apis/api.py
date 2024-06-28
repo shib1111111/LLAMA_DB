@@ -94,6 +94,7 @@ async def telegram_query(request: Request):
 
         msg = await request.json()
         chat_id, incoming_query = message_parser(msg)
+        print(incoming_query)
         if incoming_query == "Stop":
             chat_history.clear()
             chat_history.append({"type": "AIMessage", "content": initial_message})
