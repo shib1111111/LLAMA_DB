@@ -87,7 +87,7 @@ async def telegram_query(request: Request):
         chat_id, incoming_query = message_parser(msg)
         initial_message = "Hello! I'm a SQL assistant. Ask me anything about your database. To stop the chat, write Stop ."
         
-        if chat_id not in chat_histories:
+        if chat_id not in telegram_chat_histories:
             telegram_chat_histories[chat_id] = [
                 {"type": "AIMessage", "content": initial_message},
             ]
