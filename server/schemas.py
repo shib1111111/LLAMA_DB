@@ -34,8 +34,3 @@ class QueryRequest(BaseModel):
     api_key: str
     query: str
     chat_history: Optional[List[dict]] = []
-'''
-class TelegramWebhookRequest(BaseModel):
-    update_id: int
-    message: dict
-'''
