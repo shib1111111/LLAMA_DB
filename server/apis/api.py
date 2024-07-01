@@ -102,6 +102,8 @@ async def telegram_query(request: Request):
             return {"message": "Initial message sent successfully"}
         telegram_chat_histories[chat_id].append({"type": "HumanMessage", "content": incoming_query})
         answer = get_response(incoming_query, db_conn, telegram_chat_histories[chat_id])
+        if not answer:
+            answer = "Please correct your query."
         telegram_chat_histories[chat_id].append({"type": "AIMessage", "content": answer})
         send_message_telegram(chat_id, answer)
         return {"message": "Message sent successfully"}
