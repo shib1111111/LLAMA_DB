@@ -55,7 +55,7 @@ def get_sql_chain(db):
     
     llm = ChatGroq(
         api_key=GROQ_API_KEY,
-        model_name="llama3-8b-8192",
+        model_name="llama3-70b-8192",
         temperature=0
     )
     
