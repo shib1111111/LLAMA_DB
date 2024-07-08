@@ -8,6 +8,7 @@ from llm_utils import init_database,get_response
 from fastapi.responses import PlainTextResponse
 from twilio.twiml.messaging_response import MessagingResponse
 from telegram_utils import message_parser,send_message_telegram
+from translate_to_eng import translate_to_english
 import asyncpg 
 
 
@@ -33,7 +34,7 @@ def query(request: QueryRequest, current_user: User = Depends(get_current_user),
     if db_conn is None:
         raise HTTPException(status_code=400, detail="Database not connected")
     try:
-        response = get_response(request.query, db_conn, request.chat_history)
+        response = get_response(translate_to_english(request.query), db_conn, request.chat_history)
         return {"response": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -53,6 +54,7 @@ async def whatsapp_query(request: Request):
 
         form = await request.form()
         incoming_query = form.get('Body', '').lower()
+        incoming_query = translate_to_english(incoming_query)
         print("Question: ", incoming_query)
         answer = get_response(incoming_query, db_conn, chat_history)
         print("BOT Answer: ", answer)
@@ -100,6 +102,7 @@ async def telegram_query(request: Request):
         if incoming_query == "/start":
             send_message_telegram(chat_id, telegram_chat_histories[chat_id][0]["content"])
             return {"message": "Initial message sent successfully"}
+        incoming_query = translate_to_english(incoming_query)
         telegram_chat_histories[chat_id].append({"type": "HumanMessage", "content": incoming_query})
         answer = get_response(incoming_query, db_conn, telegram_chat_histories[chat_id])
         if not answer:
