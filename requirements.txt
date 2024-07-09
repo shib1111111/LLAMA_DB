@@ -2,6 +2,7 @@ langchain-core
 langchain-community
 openai
 langchain-groq
+groq
 streamlit
 python-dotenv
 SQLAlchemy
