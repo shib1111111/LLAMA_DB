@@ -17,6 +17,7 @@ def message_parser(message):
             file_id = message['message']['voice']['file_id']
             print("Chat ID: ", chat_id)
             print("Voice Message File ID: ", file_id)
+            break
             text = voice_to_text(file_id)
             return chat_id, text
         else:
