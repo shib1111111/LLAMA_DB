@@ -1,10 +1,8 @@
 import requests
-from fastapi import FastAPI, Request, Response
-from config import TELEGRAM_SECRET_KEY,GROQ_API_KEY
-from groq import Groq
+from config import TELEGRAM_SECRET_KEY
+from transcribe_audio import transcribe_audio
 
 telegram_token = TELEGRAM_SECRET_KEY
-telegram_client = Groq(api_key=GROQ_API_KEY)
 
 # To Get Chat ID and message which is sent by client
 def message_parser(message):
@@ -43,30 +41,18 @@ def get_voice_file_url(file_id):
 def voice_to_text(file_id):
     file_url = get_voice_file_url(file_id)
     if not file_url:
-        return "Unable to get voice file URL."
-
+        return "There is no Audio File"
     try:
-        # Download the voice file
         response = requests.get(file_url)
         response.raise_for_status()
         audio_data = response.content
-
-        # Use Groq API to transcribe the audio
-        transcription = telegram_client.audio.transcriptions.create(
-            file=(f"voice_message_{file_id}.ogg", audio_data),
-            model="whisper-large-v3",
-            prompt="Specify transcription",
-            response_format="json",
-            language="en",
-            temperature=0.0
-        )
-        return transcription.text
-    
+        transcribe_audio(audio_data)
     except requests.exceptions.RequestException as e:
         return f"Unable to transcribe voice message."
-    
     except Exception as e:
         return f"Unable to transcribe voice message."
+    
+    
 # To send message using "SendMessage" API
 def send_message_telegram(chat_id, text):
     try:
