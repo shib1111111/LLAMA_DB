@@ -18,7 +18,7 @@ def message_parser(message):
             print("Chat ID: ", chat_id)
             print("Voice Message File ID: ", file_id)
             text = voice_to_text(file_id)
-            print("Message: ", text)
+            print("Voice Message: ", text)
             return chat_id, text
         else:
             print("Unknown message type")
