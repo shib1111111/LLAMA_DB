@@ -47,7 +47,8 @@ def voice_to_text(file_id):
         response = requests.get(file_url)
         response.raise_for_status()
         audio_data = response.content
-        transcribe_audio(audio_data)
+        transcribed_text = transcribe_audio(audio_data)
+        return transcribed_text
     except requests.exceptions.RequestException as e:
         return f"Unable to transcribe voice message."
     except Exception as e:
