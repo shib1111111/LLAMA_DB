@@ -17,6 +17,6 @@ passlib
 argon2_cffi
 twilio
 asyncpg
-spacy==3.0.6
+spacy
 one_msg_waba_sdk
 gunicorn
