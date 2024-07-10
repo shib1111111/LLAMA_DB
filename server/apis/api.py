@@ -4,7 +4,8 @@ from models import User,ApiKey
 from database import get_db
 from api_utils import get_current_user
 from schemas import ConnectRequest,QueryRequest
-from llm_utils import init_database,get_response
+#from llm_utils import init_database,get_response
+from llm_utils_V2 import init_database,get_response
 from fastapi.responses import PlainTextResponse
 from twilio.twiml.messaging_response import MessagingResponse
 from telegram_utils import message_parser,send_message_telegram
