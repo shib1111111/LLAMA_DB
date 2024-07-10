@@ -1,5 +1,5 @@
 non_query_words_list = [
-                        "please","thank you", "thanks", "bye", "goodbye", "hello", "hi", "hey", "see you later", 
+                        "thank you", "thanks", "bye", "goodbye", "hello", "hi", "hey", "see you later", 
                         "how are you", "sorry", "excuse me","thank you so much","thank you", "thanks", "bye", 
                         "goodbye", "hello", "hi", "hey", "see you later", "how are you", "sorry", "excuse me",
                         "thank you so much", "ok", "okay", "sure", "no problem", "great", "awesome", "cool", "thank"
