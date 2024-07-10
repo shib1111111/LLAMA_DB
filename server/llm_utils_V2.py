@@ -56,7 +56,7 @@ def generate_response_with_agent(user_query: str, db: SQLDatabase, chat_history:
         ),
         db=db,
         agent_type="openai-tools",
-        verbose=True,
+        verbose=False,
         stream_runnable=False,
         handle_parsing_errors=True
     )
