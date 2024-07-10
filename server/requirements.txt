@@ -15,5 +15,6 @@ python-jose
 passlib
 argon2_cffi
 twilio
+spacy
 asyncpg
 one_msg_waba_sdk
