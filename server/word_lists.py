@@ -12,7 +12,7 @@ abusive_words_list = [
                       r"\bthirudargalgal\b", r"\bgandu\b", r"\bthirudan\b", r"\btholla\b", r"\bthirudargalgal\b",
                       r"\bthirudargal\b", r"\btanglish\b", r"\bmadarchod\b", r"\bsaala\b", r"\bkutte\b",
                       r"\bbhenchod\b", r"\bkaminey\b", r"\bbhen ki aankh\b", r"\bchaman\b", r"\bmaa ki\b",
-                      r"\bsuar\b", r"\blauda\b", r"\bhaggu\b", r"\bkutta\b", r"\bkutti\b",
+                      r"\bsuar\b", r"\blauda\b", r"\bhaggu\b", r"\bkutta\b", r"\bkutti\b",r"\bdumb\b",r"\bbitch\b"
                       r"\bmadharchod\b", r"\bmaaki\b", r"\bmaakichut\b", r"\bmaakibhosdik\xe2\x80\x8b",
                       r"\bfuck off\b", r"\basshole\b", r"\bbitch\b", r"\bshit\b", r"\bscrew you\b", r"\bgo to hell\b",
                       r"\bass\b", r"\bdamn\b", r"\bdick\b", r"\bcrappy\b", r"\bfool\b", r"\bidiots?\b", r"\bnonsense\b",
