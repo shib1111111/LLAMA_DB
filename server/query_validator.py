@@ -21,9 +21,9 @@ class QueryValidator:
 
     # Check if the query contains non-query responses or abusive language
     def contains_non_query_response(self, user_query: str) -> str:
-        if any(response.lower() in user_query.lower() for response in self.non_query_responses):
+        if any(response in user_query.lower() for response in self.non_query_responses):
             return "Please provide your query,if you need any help..."
-        if any(re.search(pattern, user_query.lower()) for pattern in self.abusive_patterns):
+        if any(pattern in user_query.lower() for pattern in self.abusive_patterns):
             return "Please don't use abusive language."
         return ""
 
