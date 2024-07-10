@@ -13,8 +13,10 @@ class QueryValidator:
     # Check if the query is a non-DML query
     def is_non_dml_query(self, user_query: str) -> str:
         if any(keyword in user_query.lower() for keyword in self.non_dml_keywords):
+            print(f"non_dml_keywords : {keyword}")
             return "Please only query DML related questions."
         if any(phrase in user_query.lower() for phrase in self.restricted_phrases):
+            print(f"restricted_phrases : {phrase}")
             return "Please only query DML related questions."
         return ""
 
@@ -22,8 +24,10 @@ class QueryValidator:
     # Check if the query contains non-query responses or abusive language
     def contains_non_query_response(self, user_query: str) -> str:
         if any(response in user_query.lower() for response in self.non_query_responses):
+            print(f"non_query_responses : {response}")
             return "Please provide your query,if you need any help..."
         if any(pattern in user_query.lower() for pattern in self.abusive_patterns):
+            print(f"abusive_patterns : {pattern}")
             return "Please don't use abusive language."
         return ""
 
