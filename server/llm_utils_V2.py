@@ -48,6 +48,7 @@ def get_table_info(db):
 
 
 def generate_response_with_agent(user_query: str, db: SQLDatabase, chat_history: list):
+    print("Enter inside the Agent-based SQL chain")
     agent_executor = create_sql_agent(
         llm=ChatGroq(
             api_key=GROQ_API_KEY,
@@ -140,7 +141,7 @@ def generate_response_with_chain(user_query: str, db, chat_history: list):
         | llm
         | StrOutputParser()
     )
-
+    print("Enter inside the Normal SQL chain")
     return chain.invoke({
         "question": user_query,
         "chat_history": chat_history,
