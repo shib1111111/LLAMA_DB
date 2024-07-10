@@ -1,9 +1,9 @@
 non_query_words_list = [
-                        "thank you", "thanks", "bye", "goodbye", "hello", "hi", "hey", "see you later", 
-                        "how are you", "sorry", "excuse me","thank you so much","thank you", "thanks", "bye", 
-                        "goodbye", "hello", "hi", "hey", "see you later", "how are you", "sorry", "excuse me",
-                        "thank you so much", "ok", "okay", "sure", "no problem", "great", "awesome", "cool", "thank"
-                        "thanks a lot", "cheers", "take care", "you're welcome", "appreciate it",  "thanks for your help"
+                        "thank you", "thanks","sorry", "bye", 
+                        "good", "hello", "hi", "hey","sorry", "excuse",
+                        "thank", "ok", "okay", "sure", "no problem", "great",
+                        "awesome", "cool", "cheers", "care",
+                           "welcome", "appreciate"
                         ]
     
 abusive_words_list = [
