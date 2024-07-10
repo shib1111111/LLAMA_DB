@@ -16,6 +16,7 @@ python-jose
 passlib
 argon2_cffi
 twilio
-spacy==3.0.6
+spacy
 asyncpg
 one_msg_waba_sdk
+gunicorn
