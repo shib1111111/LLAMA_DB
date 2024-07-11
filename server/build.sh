@@ -4,7 +4,7 @@
 pip install -r requirements.txt
 
 # Download spaCy models
-python -m spacy download en_core_web_md
+#python -m spacy download en_core_web_md
 python -m spacy download en_core_web_sm
 
 # Ensure script is executable
