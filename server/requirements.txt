@@ -3,6 +3,7 @@ langchain
 langchain-community
 openai
 langchain-groq
+langchain_nvidia_ai_endpoints
 streamlit
 python-dotenv
 SQLAlchemy
