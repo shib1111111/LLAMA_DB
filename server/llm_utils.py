@@ -3,7 +3,6 @@ import os
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain_groq import ChatGroq
 import psycopg2
 import psycopg2.extras
 from config import GROQ_API_KEY,LANGCHAIN_API_KEY
