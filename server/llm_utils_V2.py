@@ -8,7 +8,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from query_validator import QueryValidator,is_complex_sentence
-from config import GROQ_API_KEY,LANGCHAIN_API_KEY
+from config import LANGCHAIN_API_KEY
+from llm_models import groq_llama3_8b,groq_llama3_70b
 
 os.environ["LANGCHAIN_API_KEY"] = LANGCHAIN_API_KEY
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
@@ -47,14 +48,10 @@ def get_table_info(db):
 
 
 
-def generate_response_with_agent(user_query: str, db: SQLDatabase, chat_history: list):
+def generate_response_with_agent(user_query: str, db: SQLDatabase, chat_history: list, llm = groq_llama3_70b):
     print("Enter inside the Agent-based SQL chain")
     agent_executor = create_sql_agent(
-        llm=ChatGroq(
-            api_key=GROQ_API_KEY,
-            model_name="llama3-70b-8192",
-            temperature=0
-        ),
+        llm=llm,
         db=db,
         agent_type="openai-tools",
         verbose=False,
@@ -64,7 +61,7 @@ def generate_response_with_agent(user_query: str, db: SQLDatabase, chat_history:
     response = agent_executor.invoke(user_query)
     return response['output']
 
-def get_sql_chain(db):
+def get_sql_chain(db,llm = groq_llama3_70b):
     template = """
     You are a data analyst at a company. You are interacting with a user who is asking you questions about the company's PostgreSQL database.
     Based on the table schema below, write a SQL query that would answer the user's question. Take the conversation history into account.
@@ -89,12 +86,6 @@ def get_sql_chain(db):
 
     prompt = ChatPromptTemplate.from_template(template)
 
-    llm = ChatGroq(
-        api_key=GROQ_API_KEY,
-        model_name="llama3-70b-8192",
-        temperature=0
-    )
-
     def get_schema(_):
         return get_table_info(db)
 
@@ -105,7 +96,7 @@ def get_sql_chain(db):
         | StrOutputParser()
     )
 
-def generate_response_with_chain(user_query: str, db, chat_history: list):
+def generate_response_with_chain(user_query: str, db, chat_history: list, llm = groq_llama3_8b):
     sql_chain = get_sql_chain(db)
 
     template = """
@@ -119,12 +110,6 @@ def generate_response_with_chain(user_query: str, db, chat_history: list):
     SQL Response: {response}"""
 
     prompt = ChatPromptTemplate.from_template(template)
-
-    llm = ChatGroq(
-        api_key=GROQ_API_KEY,
-        model_name="llama3-8b-8192",
-        temperature=0
-    )
 
     def run_sql_query(query):
       results = db.run(query)
@@ -146,8 +131,7 @@ def generate_response_with_chain(user_query: str, db, chat_history: list):
         "question": user_query,
         "chat_history": chat_history,
     })
-    
-    
+
 # Function to execute response generation functions with a Time Limit
 def generate_response_with_timeout(func, user_query, db, chat_history, timeout=120):
     with concurrent.futures.ThreadPoolExecutor() as executor:
