@@ -144,11 +144,11 @@ def api_key_page():
 def main_page():
     st.sidebar.subheader("Connect to the Database")
 
-    host = st.sidebar.text_input("Host", value="localhost")
+    host = st.sidebar.text_input("Host", value="10.184.43.111")
     port = st.sidebar.text_input("Port", value="5432")
     user = st.sidebar.text_input("User", value="postgres")
-    password = st.sidebar.text_input("Password", type="password", value="1234")
-    database = st.sidebar.text_input("Database", value="postgres")
+    password = st.sidebar.text_input("Password", type="postgres", value="1234")
+    database = st.sidebar.text_input("Database", value="chatdb")
 
     if st.sidebar.button("Connect"):
         connect_to_db(host, port, user, password, database)
