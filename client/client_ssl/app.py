@@ -147,7 +147,7 @@ def main_page():
     host = st.sidebar.text_input("Host", value="10.184.43.111")
     port = st.sidebar.text_input("Port", value="5432")
     user = st.sidebar.text_input("User", value="postgres")
-    password = st.sidebar.text_input("Password", type="postgres", value="1234")
+    password = st.sidebar.text_input("Password", type="password", value="postgres")
     database = st.sidebar.text_input("Database", value="chatdb")
 
     if st.sidebar.button("Connect"):
