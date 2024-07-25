@@ -36,7 +36,7 @@ def initialize_session_state():
         ]
 
 def login(username, password):
-    response = requests.post(f"{SERVER_URL}/login", data={"username": username, "password": password}, verify=CERTIFICATE_PATH)
+    response = requests.post(f"{SERVER_URL}/login", data={"username": username, "password": password}, verify=False)
     if response.status_code == 200:
         st.session_state.access_token = response.json()["access_token"]
         st.success("Login successful!")
@@ -46,7 +46,7 @@ def login(username, password):
         st.error("Login failed. Please check your credentials.")
 
 def signup(username, password):
-    response = requests.post(f"{SERVER_URL}/signup", json={"username": username, "password": password},verify=CERTIFICATE_PATH)
+    response = requests.post(f"{SERVER_URL}/signup", json={"username": username, "password": password},verify=False)
     if response.status_code == 200:
         st.session_state.access_token = response.json()["access_token"]
         st.success("Signup successful!")
@@ -57,7 +57,7 @@ def signup(username, password):
 
 def generate_api_key():
     headers = {"Authorization": f"Bearer {st.session_state.access_token}"}
-    response = requests.post(f"{SERVER_URL}/api_key", headers=headers,verify=CERTIFICATE_PATH)
+    response = requests.post(f"{SERVER_URL}/api_key", headers=headers,verify=False)
     if response.status_code == 200:
         st.success(f"Generated API key: {response.json()['api_key']}")
     else:
@@ -65,7 +65,7 @@ def generate_api_key():
 
 def list_api_keys():
     headers = {"Authorization": f"Bearer {st.session_state.access_token}"}
-    response = requests.get(f"{SERVER_URL}/api_keys", headers=headers, verify=CERTIFICATE_PATH)
+    response = requests.get(f"{SERVER_URL}/api_keys", headers=headers, verify=False)
     if response.status_code == 200:
         api_keys = response.json().get("api_keys", [])
         if not api_keys:
@@ -87,7 +87,7 @@ def connect_to_db(host, port, user, password, database):
             "user": user,
             "password": password,
             "database": database
-        }, headers=headers, verify=CERTIFICATE_PATH)
+        }, headers=headers, verify=False)
 
         if response.status_code == 200:
             st.session_state.db_connected = True
@@ -108,7 +108,7 @@ def query_db(query):
             "query": query,
             "chat_history": serialized_history
         }
-        response = requests.post(f"{SERVER_URL}/query", headers=headers, json=payload, verify=CERTIFICATE_PATH)
+        response = requests.post(f"{SERVER_URL}/query", headers=headers, json=payload, verify=False)
         if response.status_code == 200:
             response_content = response.json()["response"]
             response_content =  response_content.split("Ahmedabad!", 1)[-1].strip()
