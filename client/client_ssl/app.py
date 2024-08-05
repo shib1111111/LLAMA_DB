@@ -148,8 +148,21 @@ def main_page():
     port = st.sidebar.text_input("Port", value="5432")
     user = st.sidebar.text_input("User", value="postgres")
     password = st.sidebar.text_input("Password", type="password", value="postgres")
-    database = st.sidebar.text_input("Database", value="chatdb")
-
+    #database = st.sidebar.text_input("Database", value="chatdb")
+    db_names = [
+        'postgres', 'star0224', 'examdb', 'icg2022offnov', 'icg2022sailnov', 
+        'agnipath2023', 'navy_old', 'navy', 'afcat23feb', 'icgmar2023', 
+        'icgmar2023_off', 'agnipathmay2023', 'navyjuly', 'afcataug2023', 
+        'rhb1', 'agnipathoct2023', 'icg_today', 'rhb_today', 'agnipath_today', 
+        'rhb_Nov22', 'agnipathOne', 'agnipathTwo', 'agnipathThree', 
+        'agnipathFour', 'aiimsnov23', 'icgoffnov23', 'icmrnov23', 
+        'icgsailnov23', 'dcmpr_hallticket_29_01_2024', 'dcmpr_hallticket_31_01_2024', 
+        'afcat0224', 'icmr2024feb', 'nios2024feb', 'health_pic', 
+        'exam_statistics', 'icgapr2024', 'icgapr2024sail', 'access_log_analysis', 
+        'rp2406', 'dmpr2407', 'caqm2407', 'chatdb', 'dmprtest', 'nios2408', 'nios240805'
+    ]
+    
+    database = st.sidebar.selectbox("Database", options=db_names)
     if st.sidebar.button("Connect"):
         connect_to_db(host, port, user, password, database)
     st.sidebar.subheader("Enter API Key")
